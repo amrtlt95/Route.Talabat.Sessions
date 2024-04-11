@@ -34,7 +34,7 @@ namespace Route.Talabat.APIs
 			try
 			{
 				await _dbContext.Database.MigrateAsync();
-
+				await ApplicationContextSeed.SeedAsync(_dbContext);
 			}
 			catch (Exception ex)
 			{
