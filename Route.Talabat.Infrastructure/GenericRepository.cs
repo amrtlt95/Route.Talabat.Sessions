@@ -20,11 +20,11 @@ namespace Route.Talabat.Infrastructure
             _dbContext = DbContext;
         }
         public async Task<IEnumerable<T>> GetAllAsync() {
-            if(typeof(T) == typeof(Product))
-            {
-                return (IEnumerable<T>)await _dbContext.Products.Include(p=> p.Brand).Include(p=> p.Category).AsNoTracking().ToListAsync();
+            //if(typeof(T) == typeof(Product))
+            //{
+            //    return (IEnumerable<T>)await _dbContext.Products.Include(p=> p.Brand).Include(p=> p.Category).AsNoTracking().ToListAsync();
 
-            }
+            //}
             return await _dbContext.Set<T>().AsNoTracking().ToListAsync(); 
         }
 

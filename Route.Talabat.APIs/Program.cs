@@ -21,7 +21,7 @@ namespace Route.Talabat.APIs
 			webApplicationBuilder.Services.AddSwaggerGen();
 			webApplicationBuilder.Services.AddDbContext<ApplicationDbContext>(options =>
 			{
-				options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("DefaultConnection"));
+				options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies();
 			}); 
 			webApplicationBuilder.Services.AddScoped( typeof(IGenericRepository<>) , typeof(GenericRepository<>));
 			#endregion
