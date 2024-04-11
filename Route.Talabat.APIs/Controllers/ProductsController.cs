@@ -7,8 +7,18 @@ namespace Route.Talabat.APIs.Controllers
 {
     public class ProductsController : _BaseController
     {
-        public ProductsController(IGenericRepository<Product> genericRepository) { }
+        private readonly IGenericRepository<Product> _genericRepository;
 
+        public ProductsController(IGenericRepository<Product> GenericRepository)
+        {
+            _genericRepository = GenericRepository;
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        {
+            var products = await _genericRepository.GetAllAsync();
+            return Ok(products);
+        }
 
     }
 }
