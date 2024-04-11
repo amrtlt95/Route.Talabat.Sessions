@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Route.Talabat.Core.Entities;
+using Route.Talabat.Core.Entities.Product;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Infrastructure.Data;
 using System;
@@ -18,7 +19,14 @@ namespace Route.Talabat.Infrastructure
         {
             _dbContext = DbContext;
         }
-        public async Task<IEnumerable<T>> GetAllAsync() => await _dbContext.Set<T>().AsNoTracking().ToListAsync();
+        public async Task<IEnumerable<T>> GetAllAsync() {
+            if(typeof(T) == typeof(Product))
+            {
+                return (IEnumerable<T>)await _dbContext.Products.Include(p=> p.Brand).Include(p=> p.Category).AsNoTracking().ToListAsync();
+
+            }
+            return await _dbContext.Set<T>().AsNoTracking().ToListAsync(); 
+        }
 
 
         public async Task<T?> GetAsync(int id) => await _dbContext.Set<T>().FindAsync(id);
