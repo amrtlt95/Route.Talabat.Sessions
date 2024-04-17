@@ -16,7 +16,7 @@ namespace Route.Talabat.Infrastructure
             var query = inputQuery;
             if (specifications.Criteria is not null)
                 query = query.Where(specifications.Criteria);
-            specifications.Includes.Aggregate(query , (queryToInclude,includeToBeAdded)=> queryToInclude.Include(includeToBeAdded));
+            query = specifications.Includes.Aggregate(query , (queryToInclude,includeToBeAdded)=> queryToInclude.Include(includeToBeAdded));
             return query;
         }
     }
