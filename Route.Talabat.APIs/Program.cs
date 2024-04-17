@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using Route.Talabat.APIs.Helpers;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Infrastructure;
 using Route.Talabat.Infrastructure.Data;
@@ -24,6 +25,7 @@ namespace Route.Talabat.APIs
 				options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies();
 			}); 
 			webApplicationBuilder.Services.AddScoped( typeof(IGenericRepository<>) , typeof(GenericRepository<>));
+			webApplicationBuilder.Services.AddAutoMapper(typeof(MappingProfiles));
 			#endregion
 
 			var app = webApplicationBuilder.Build();
