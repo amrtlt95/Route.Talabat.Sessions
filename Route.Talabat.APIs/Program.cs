@@ -1,6 +1,10 @@
 
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Route.Talabat.APIs.Errors;
 using Route.Talabat.APIs.Helpers;
+using Route.Talabat.APIs.Middlewares;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Infrastructure;
 using Route.Talabat.Infrastructure.Data;
@@ -26,6 +30,24 @@ namespace Route.Talabat.APIs
 			}); 
 			webApplicationBuilder.Services.AddScoped( typeof(IGenericRepository<>) , typeof(GenericRepository<>));
 			webApplicationBuilder.Services.AddAutoMapper(typeof(MappingProfiles));
+			webApplicationBuilder.Services.Configure<ApiBehaviorOptions>(options =>
+			{
+				options.InvalidModelStateResponseFactory = (action) =>
+				{
+					var errors = action.ModelState
+					.Where(a => a.Value.Errors.Count() > 0)
+					.SelectMany(a => a.Value.Errors)
+					.Select(a => a.ErrorMessage)
+					.ToList();
+
+					var response = new ApiValidationErrorResponse()
+					{
+						Errors = errors
+					};
+					return new BadRequestObjectResult(response);
+
+				};
+			});
 			#endregion
 
 			var app = webApplicationBuilder.Build();
@@ -45,11 +67,12 @@ namespace Route.Talabat.APIs
 			{
 				var logger = loggerFactory.CreateLogger<Program>();
 				logger.LogError(ex, "an error occured during applying the Migrations");
-			}			
+			}
 			#endregion
 
 			// Configure the HTTP request pipeline.
 			#region Configure Kestrel Middlewares
+			app.UseMiddleware<ExceptionMiddleware>();
 			if (app.Environment.IsDevelopment())
 			{
 				app.UseSwagger();

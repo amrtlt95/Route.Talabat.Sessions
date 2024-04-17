@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Route.Talabat.APIs.DTOs;
+using Route.Talabat.APIs.Errors;
 using Route.Talabat.Core.Entities.Product;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Core.Specifications;
@@ -35,7 +36,7 @@ namespace Route.Talabat.APIs.Controllers
             var product =await _genericRepository.GetWithSpecAsync(specs);
             //var product = await _genericRepository.GetAsync(id);
             if (product is null)
-                return NotFound(new { Message="Not Found",StatusCode = 404 });
+                return NotFound(new ApiResponse(404));
             return Ok(_mapper.Map<Product,ProductToReturnDto>(product));
         }
 
