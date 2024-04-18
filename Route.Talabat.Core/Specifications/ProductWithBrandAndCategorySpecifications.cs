@@ -9,8 +9,24 @@ namespace Route.Talabat.Core.Specifications
 {
     public class ProductWithBrandAndCategorySpecifications : BaseSpecifications<Product>
     {
-        public ProductWithBrandAndCategorySpecifications():base()
+        public ProductWithBrandAndCategorySpecifications(string? sort):base()
         {
+            if(!string.IsNullOrEmpty(sort))
+            {
+                switch (sort)
+                {
+                    case "PriceAsc":
+                        OrderBy = (p => p.Price);
+                        break; 
+                    case "PriceDesc":
+                        OrderByDesc = (p => p.Price);
+                        break; 
+                    default:
+                        OrderBy = (p => p.Name);
+                        break;
+
+                }
+            }
             AddingIncludes();
         }
 
