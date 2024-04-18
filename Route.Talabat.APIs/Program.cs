@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Route.Talabat.APIs.Errors;
+using Route.Talabat.APIs.Extentions;
 using Route.Talabat.APIs.Helpers;
 using Route.Talabat.APIs.Middlewares;
 using Route.Talabat.Core.Repositories.Contract;
@@ -22,35 +23,15 @@ namespace Route.Talabat.APIs
 			#region Adding Services
 			webApplicationBuilder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			webApplicationBuilder.Services.AddEndpointsApiExplorer();
-			webApplicationBuilder.Services.AddSwaggerGen();
+			webApplicationBuilder.Services.AddSwaggerServices();
 			webApplicationBuilder.Services.AddDbContext<ApplicationDbContext>(options =>
 			{
 				options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies();
-			}); 
-			webApplicationBuilder.Services.AddScoped( typeof(IGenericRepository<>) , typeof(GenericRepository<>));
-			webApplicationBuilder.Services.AddAutoMapper(typeof(MappingProfiles));
-			webApplicationBuilder.Services.Configure<ApiBehaviorOptions>(options =>
-			{
-				options.InvalidModelStateResponseFactory = (action) =>
-				{
-					var errors = action.ModelState
-					.Where(a => a.Value.Errors.Count() > 0)
-					.SelectMany(a => a.Value.Errors)
-					.Select(a => a.ErrorMessage)
-					.ToList();
-
-					var response = new ApiValidationErrorResponse()
-					{
-						Errors = errors
-					};
-					return new BadRequestObjectResult(response);
-
-				};
 			});
-			#endregion
+			webApplicationBuilder.Services.AddApplicationServices();
+            #endregion
 
-			var app = webApplicationBuilder.Build();
+            var app = webApplicationBuilder.Build();
 
 			#region Applying Any Pending Migrations
 			using var scope = app.Services.CreateScope();
@@ -75,9 +56,9 @@ namespace Route.Talabat.APIs
 			app.UseMiddleware<ExceptionMiddleware>();
 			if (app.Environment.IsDevelopment())
 			{
-				app.UseSwagger();
-				app.UseSwaggerUI();
-			}
+				app.AddSwaggerMiddlewares();
+
+            }
 			app.UseStatusCodePagesWithReExecute("/errors/{0}");
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
