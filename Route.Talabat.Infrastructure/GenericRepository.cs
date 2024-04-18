@@ -20,7 +20,7 @@ namespace Route.Talabat.Infrastructure
         {
             _dbContext = DbContext;
         }
-        public async Task<IEnumerable<T>> GetAllAsync() {
+        public async Task<IReadOnlyList<T>> GetAllAsync() {
             //if (typeof(T) == typeof(Product))
             //{
             //    return (IEnumerable<T>)await _dbContext.Products.Include(p => p.Brand).Include(p => p.Category).AsNoTracking().ToListAsync();
@@ -29,7 +29,7 @@ namespace Route.Talabat.Infrastructure
             return await _dbContext.Set<T>().AsNoTracking().ToListAsync(); 
         }
 
-        public async Task<IEnumerable<T>> GetAllWithSpecAsync(BaseSpecifications<T> specifications)
+        public async Task<IReadOnlyList<T>> GetAllWithSpecAsync(BaseSpecifications<T> specifications)
         {
             return await ApplySpecifications(specifications).AsNoTracking().ToListAsync();
         }

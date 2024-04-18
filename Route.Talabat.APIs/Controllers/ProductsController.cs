@@ -24,12 +24,12 @@ namespace Route.Talabat.APIs.Controllers
             _brandRepo = brandRepo;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProducts()
+        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
         {
             //var products = await _genericRepository.GetAllAsync();
             var specs = new ProductWithBrandAndCategorySpecifications();
             var products =await  _productRepo.GetAllWithSpecAsync(specs);
-            return Ok(_mapper.Map<IEnumerable<Product>, IEnumerable<ProductToReturnDto>>(products));
+            return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products));
         }
 
 
@@ -48,7 +48,7 @@ namespace Route.Talabat.APIs.Controllers
 
         //categories
         [HttpGet("categories")]
-        public async Task<ActionResult<IEnumerable<ProductCategory>>> GetCategories()
+        public async Task<ActionResult<IReadOnlyList<ProductCategory>>> GetCategories()
         {
             var categories = await _categoryRepo.GetAllAsync();
             return Ok(categories);
@@ -57,7 +57,7 @@ namespace Route.Talabat.APIs.Controllers
 
         //brand
         [HttpGet("brands")]
-        public async Task<ActionResult<IEnumerable<ProductBrand>>> GetBrands()
+        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetBrands()
         {
             var brands = await _brandRepo.GetAllAsync();
             return Ok(brands);
