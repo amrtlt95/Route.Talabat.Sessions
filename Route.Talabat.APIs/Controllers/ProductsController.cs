@@ -30,6 +30,8 @@ namespace Route.Talabat.APIs.Controllers
 
 
         [HttpGet("{id}")]
+        [ProducesResponseType<ProductToReturnDto>(StatusCodes.Status200OK)]
+        [ProducesResponseType<ApiResponse>(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
         {
             var specs = new ProductWithBrandAndCategorySpecifications(id);
