@@ -14,7 +14,7 @@ namespace Route.Talabat.APIs.Extentions
         {
             app.UseSwagger();
             app.UseSwaggerUI();
-            return app
+            return app;
         }
     }
 }
