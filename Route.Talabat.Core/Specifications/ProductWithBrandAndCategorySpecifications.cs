@@ -9,11 +9,15 @@ namespace Route.Talabat.Core.Specifications
 {
     public class ProductWithBrandAndCategorySpecifications : BaseSpecifications<Product>
     {
-        public ProductWithBrandAndCategorySpecifications(string? sort):base()
+        public ProductWithBrandAndCategorySpecifications(ProductSpecParams productSpecParams) : base
+            (
+            p =>
+                (!productSpecParams.BrandId.HasValue || p.BrandId == productSpecParams.BrandId) && (!productSpecParams.CategoryId.HasValue || p.CategoryId == productSpecParams.CategoryId)
+            )
         {
-            if(!string.IsNullOrEmpty(sort))
+            if(!string.IsNullOrEmpty(productSpecParams.Sort))
             {
-                switch (sort)
+                switch (productSpecParams.Sort)
                 {
                     case "PriceAsc":
                         OrderBy = (p => p.Price);
