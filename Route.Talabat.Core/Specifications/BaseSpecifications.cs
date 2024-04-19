@@ -14,6 +14,9 @@ namespace Route.Talabat.Core.Specifications
         public List<Expression<Func<T, object>>> Includes { get; set; }
         public Expression<Func<T, object>>? OrderBy { get; set; }
         public Expression<Func<T, object>>? OrderByDesc { get; set; }
+        public int Skip { get; set; }
+        public int Take { get; set; }
+        public bool IsPaginationEnabled { get ; set; }
 
         public BaseSpecifications()
         {
@@ -26,5 +29,11 @@ namespace Route.Talabat.Core.Specifications
             
         }
 
+        public void AddPagination(int skip , int take)
+        {
+            IsPaginationEnabled = true;
+            Skip = skip;
+            Take = take;
+        }
     }
 }

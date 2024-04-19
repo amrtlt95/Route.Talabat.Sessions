@@ -32,6 +32,8 @@ namespace Route.Talabat.Core.Specifications
                 }
             }
             AddingIncludes();
+
+            AddPagination((productSpecParams.PageIndex-1)* productSpecParams.PageSize, productSpecParams.PageSize);
         }
 
         public ProductWithBrandAndCategorySpecifications(int id):base(p=>p.Id == id)
