@@ -13,7 +13,7 @@ namespace Route.Talabat.Core.Repositories.Contract
         Task<T?> GetAsync(int id);
         Task<IReadOnlyList<T>> GetAllAsync();
 
-        Task<T?> GetWithSpecAsync(BaseSpecifications<T> specifications);
-        Task<IReadOnlyList<T>> GetAllWithSpecAsync(BaseSpecifications<T> specifications);
+        Task<T?> GetWithSpecAsync(ISpecifications<T> specifications);
+        Task<IReadOnlyList<T>> GetAllWithSpecAsync(ISpecifications<T> specifications);
     }
 }

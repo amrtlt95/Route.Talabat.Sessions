@@ -29,7 +29,7 @@ namespace Route.Talabat.Infrastructure
             return await _dbContext.Set<T>().AsNoTracking().ToListAsync(); 
         }
 
-        public async Task<IReadOnlyList<T>> GetAllWithSpecAsync(BaseSpecifications<T> specifications)
+        public async Task<IReadOnlyList<T>> GetAllWithSpecAsync(ISpecifications<T> specifications)
         {
             return await ApplySpecifications(specifications).AsNoTracking().ToListAsync();
         }
@@ -44,11 +44,12 @@ namespace Route.Talabat.Infrastructure
         }
 
         public async Task<T?> GetWithSpecAsync(BaseSpecifications<T> specifications)
+        public async Task<T?> GetWithSpecAsync(ISpecifications<T> specifications)
         {
             return await ApplySpecifications(specifications).FirstOrDefaultAsync();
         }
         #region Helper methods
-        private IQueryable<T> ApplySpecifications(BaseSpecifications<T> specifications)
+        private IQueryable<T> ApplySpecifications(ISpecifications<T> specifications)
         {
             return SpecificationsEvaluator<T>.GetQuery(_dbContext.Set<T>(), specifications);
         }
