@@ -43,7 +43,11 @@ namespace Route.Talabat.Infrastructure
             return await _dbContext.Set<T>().FindAsync(id);
         }
 
-        public async Task<T?> GetWithSpecAsync(BaseSpecifications<T> specifications)
+        public async Task<int> GetCountWithSpecAsync(ISpecifications<T> specifications)
+        {
+            return await ApplySpecifications(specifications).CountAsync();
+        }
+
         public async Task<T?> GetWithSpecAsync(ISpecifications<T> specifications)
         {
             return await ApplySpecifications(specifications).FirstOrDefaultAsync();
