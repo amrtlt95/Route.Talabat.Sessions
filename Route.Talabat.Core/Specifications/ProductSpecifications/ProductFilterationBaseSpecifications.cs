@@ -13,6 +13,7 @@ namespace Route.Talabat.Core.Specifications.ProductSpecifications
         public ProductFilterationBaseSpecifications(ProductSpecParams productSpecParams) : base
             (
             p =>
+                (string.IsNullOrEmpty(productSpecParams.Search)|| p.Name.ToLower().Contains(productSpecParams.Search))&&
                 (!productSpecParams.BrandId.HasValue || p.BrandId == productSpecParams.BrandId) && (!productSpecParams.CategoryId.HasValue || p.CategoryId == productSpecParams.CategoryId)
             )
         { }

@@ -12,7 +12,16 @@ namespace Route.Talabat.Core.Specifications.ProductSpecifications
         public int? BrandId { get; set; }
         public int? CategoryId { get; set; }
 
-        private int pageSize;
+        private string? search;
+
+        public string? Search
+        {
+            get { return search; }
+            set { search = value?.ToLower(); }
+        }
+
+
+        private int pageSize = 5;
 
         public int PageSize
         {
