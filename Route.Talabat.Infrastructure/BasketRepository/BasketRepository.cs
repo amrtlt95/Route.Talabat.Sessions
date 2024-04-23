@@ -16,7 +16,7 @@ namespace Route.Talabat.Infrastructure.BasketRepository
         public BasketRepository(IConnectionMultiplexer redis) {
             _database = redis.GetDatabase();
         }
-        public async Task<bool> DeleteBasket(string basketId)
+        public async Task<bool> DeleteBasketAsync(string basketId)
         {
             return await _database.KeyDeleteAsync(basketId);
         }

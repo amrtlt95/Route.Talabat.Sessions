@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Route.Talabat.APIs.Errors;
 using Route.Talabat.APIs.Helpers;
 using Route.Talabat.Core.Repositories.Contract;
+using Route.Talabat.Infrastructure.BasketRepository;
 using Route.Talabat.Infrastructure.GenericRepository;
 using StackExchange.Redis;
 
@@ -13,6 +14,7 @@ namespace Route.Talabat.APIs.Extentions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddAutoMapper(typeof(MappingProfiles));
             services.Configure<ApiBehaviorOptions>(options =>
             {
