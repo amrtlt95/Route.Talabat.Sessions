@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Route.Talabat.Infrastructure.Data;
+using Route.Talabat.Infrastructure.GenericRepository.Data;
 
 #nullable disable
 

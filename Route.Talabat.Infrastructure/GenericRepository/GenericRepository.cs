@@ -3,14 +3,14 @@ using Route.Talabat.Core.Entities;
 using Route.Talabat.Core.Entities.Product;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Core.Specifications;
-using Route.Talabat.Infrastructure.Data;
+using Route.Talabat.Infrastructure.GenericRepository.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Infrastructure
+namespace Route.Talabat.Infrastructure.GenericRepository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
@@ -20,13 +20,14 @@ namespace Route.Talabat.Infrastructure
         {
             _dbContext = DbContext;
         }
-        public async Task<IReadOnlyList<T>> GetAllAsync() {
+        public async Task<IReadOnlyList<T>> GetAllAsync()
+        {
             //if (typeof(T) == typeof(Product))
             //{
             //    return (IEnumerable<T>)await _dbContext.Products.Include(p => p.Brand).Include(p => p.Category).AsNoTracking().ToListAsync();
 
             //}
-            return await _dbContext.Set<T>().AsNoTracking().ToListAsync(); 
+            return await _dbContext.Set<T>().AsNoTracking().ToListAsync();
         }
 
         public async Task<IReadOnlyList<T>> GetAllWithSpecAsync(ISpecifications<T> specifications)
@@ -34,7 +35,8 @@ namespace Route.Talabat.Infrastructure
             return await ApplySpecifications(specifications).AsNoTracking().ToListAsync();
         }
 
-        public async Task<T?> GetAsync(int id) {
+        public async Task<T?> GetAsync(int id)
+        {
             //if (typeof(T) == typeof(Product))
             //{
             //    return await _dbContext.Products.Where(p=> p.Id == id).Include(p => p.Brand).Include(p => p.Category).FirstOrDefaultAsync() as T;

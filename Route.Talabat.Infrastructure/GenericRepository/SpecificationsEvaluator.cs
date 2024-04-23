@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Infrastructure
+namespace Route.Talabat.Infrastructure.GenericRepository
 {
     internal static class SpecificationsEvaluator<T> where T : BaseEntity
     {
-        public static IQueryable<T> GetQuery(IQueryable<T> inputQuery , ISpecifications<T> specifications)
+        public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISpecifications<T> specifications)
         {
             var query = inputQuery;
 
@@ -24,10 +24,10 @@ namespace Route.Talabat.Infrastructure
             if (specifications.OrderByDesc is not null)
                 query = query.OrderByDescending(specifications.OrderByDesc);
 
-            if(specifications.IsPaginationEnabled)
-                query=query.Skip(specifications.Skip).Take(specifications.Take);
+            if (specifications.IsPaginationEnabled)
+                query = query.Skip(specifications.Skip).Take(specifications.Take);
 
-            query = specifications.Includes.Aggregate(query , (queryToInclude,includeToBeAdded)=> queryToInclude.Include(includeToBeAdded));
+            query = specifications.Includes.Aggregate(query, (queryToInclude, includeToBeAdded) => queryToInclude.Include(includeToBeAdded));
             return query;
         }
     }

@@ -7,11 +7,11 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Infrastructure.Data
+namespace Route.Talabat.Infrastructure.GenericRepository.Data
 {
     public static class ApplicationContextSeed
     {
-        public async static Task SeedAsync(ApplicationDbContext _dbContext) 
+        public async static Task SeedAsync(ApplicationDbContext _dbContext)
         {
             #region BrandsSeeding
             if (!_dbContext.ProductBrands.Any())

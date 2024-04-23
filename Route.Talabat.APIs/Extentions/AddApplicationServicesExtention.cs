@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Route.Talabat.APIs.Errors;
 using Route.Talabat.APIs.Helpers;
 using Route.Talabat.Core.Repositories.Contract;
-using Route.Talabat.Infrastructure;
+using Route.Talabat.Infrastructure.GenericRepository;
+using StackExchange.Redis;
 
 namespace Route.Talabat.APIs.Extentions
 {
@@ -31,6 +32,7 @@ namespace Route.Talabat.APIs.Extentions
 
                 };
             });
+            
             return services;
         }
     }

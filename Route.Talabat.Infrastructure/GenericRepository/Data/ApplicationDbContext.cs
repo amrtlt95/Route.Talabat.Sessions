@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Infrastructure.Data
+namespace Route.Talabat.Infrastructure.GenericRepository.Data
 {
     public class ApplicationDbContext : DbContext
     {
@@ -19,7 +19,7 @@ namespace Route.Talabat.Infrastructure.Data
         }
 
         public DbSet<Product> Products { get; set; }
-        public DbSet<ProductBrand> ProductBrands{ get; set; }
-        public DbSet<ProductCategory> productCategories{ get; set; }
+        public DbSet<ProductBrand> ProductBrands { get; set; }
+        public DbSet<ProductCategory> productCategories { get; set; }
     }
 }

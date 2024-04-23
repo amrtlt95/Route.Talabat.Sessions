@@ -8,11 +8,12 @@ using Route.Talabat.APIs.Helpers;
 using Route.Talabat.APIs.Middlewares;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Infrastructure;
-using Route.Talabat.Infrastructure.Data;
+using Route.Talabat.Infrastructure.GenericRepository.Data;
+using StackExchange.Redis;
 
 namespace Route.Talabat.APIs
 {
-	public class Program
+    public class Program
 	{
 		public static async Task Main(string[] args)
 		{
@@ -28,7 +29,11 @@ namespace Route.Talabat.APIs
 			{
 				options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies();
 			});
-			webApplicationBuilder.Services.AddApplicationServices();
+            webApplicationBuilder.Services.AddScoped<IConnectionMultiplexer>((serviceProvider) => {
+				var connection = webApplicationBuilder.Configuration.GetConnectionString("Radis");
+				return ConnectionMultiplexer.Connect(connection);
+            });
+            webApplicationBuilder.Services.AddApplicationServices();
             #endregion
 
             var app = webApplicationBuilder.Build();

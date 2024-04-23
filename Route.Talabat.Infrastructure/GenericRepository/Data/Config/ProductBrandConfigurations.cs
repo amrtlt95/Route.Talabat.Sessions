@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Infrastructure.Data.Config
+namespace Route.Talabat.Infrastructure.GenericRepository.Data.Config
 {
     public class ProductBrandConfigurations : IEntityTypeConfiguration<ProductBrand>
     {
