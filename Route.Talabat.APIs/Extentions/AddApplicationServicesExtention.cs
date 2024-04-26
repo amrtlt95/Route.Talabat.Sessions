@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Route.Talabat.APIs.Errors;
 using Route.Talabat.APIs.Helpers;
 using Route.Talabat.Core.Repositories.Contract;
-using Route.Talabat.Infrastructure.BasketRepository;
-using Route.Talabat.Infrastructure.GenericRepository;
+using Route.Talabat.Infrastructure.RedisDbFiles.BasketRepository;
+using Route.Talabat.Infrastructure.SqlServerDbFiles;
 using StackExchange.Redis;
 
 namespace Route.Talabat.APIs.Extentions

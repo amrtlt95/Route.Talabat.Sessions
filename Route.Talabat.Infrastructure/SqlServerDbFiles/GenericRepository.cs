@@ -3,14 +3,14 @@ using Route.Talabat.Core.Entities;
 using Route.Talabat.Core.Entities.Product;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Core.Specifications;
-using Route.Talabat.Infrastructure.GenericRepository.Data;
+using Route.Talabat.Infrastructure.SqlServerDbFiles.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Infrastructure.GenericRepository
+namespace Route.Talabat.Infrastructure.SqlServerDbFiles
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {

@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Infrastructure.GenericRepository.Data
+namespace Route.Talabat.Infrastructure.SqlServerDbFiles.Data
 {
     public static class ApplicationContextSeed
     {

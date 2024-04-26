@@ -14,4 +14,9 @@
     <ProjectReference Include="..\Route.Talabat.Core\Route.Talabat.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="SqlServerDbFiles\Identity\Config\" />
+    <Folder Include="SqlServerDbFiles\Identity\Dataseed\" />
+  </ItemGroup>
+
 </Project>

@@ -8,7 +8,8 @@ using Route.Talabat.APIs.Helpers;
 using Route.Talabat.APIs.Middlewares;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Infrastructure;
-using Route.Talabat.Infrastructure.GenericRepository.Data;
+using Route.Talabat.Infrastructure.SqlServerDbFiles.Data;
+using Route.Talabat.Infrastructure.SqlServerDbFiles.Identity;
 using StackExchange.Redis;
 
 namespace Route.Talabat.APIs
@@ -29,7 +30,16 @@ namespace Route.Talabat.APIs
 			{
 				options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies();
 			});
-            webApplicationBuilder.Services.AddScoped<IConnectionMultiplexer>((serviceProvider) => {
+
+
+			webApplicationBuilder.Services.AddDbContext<ApplicationIdentityDbContext>(options =>
+			{
+				options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("IdentityConnection"));
+			});
+
+
+
+			webApplicationBuilder.Services.AddScoped<IConnectionMultiplexer>((serviceProvider) => {
 				var connection = webApplicationBuilder.Configuration.GetConnectionString("Radis");
 				return ConnectionMultiplexer.Connect(connection);
             });
@@ -42,12 +52,15 @@ namespace Route.Talabat.APIs
 			using var scope = app.Services.CreateScope();
 			var services = scope.ServiceProvider;
 			var _dbContext = services.GetRequiredService<ApplicationDbContext>();
+			var _identityDbContext = services.GetRequiredService<ApplicationIdentityDbContext>();
 			var loggerFactory = services.GetRequiredService<ILoggerFactory>();
 
 			try
 			{
 				await _dbContext.Database.MigrateAsync();
 				await ApplicationContextSeed.SeedAsync(_dbContext);
+
+				await _identityDbContext.Database.MigrateAsync();
 			}
 			catch (Exception ex)
 			{

@@ -8,12 +8,13 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Infrastructure.BasketRepository
+namespace Route.Talabat.Infrastructure.RedisDbFiles.BasketRepository
 {
     public class BasketRepository : IBasketRepository
     {
         private IDatabase _database;
-        public BasketRepository(IConnectionMultiplexer redis) {
+        public BasketRepository(IConnectionMultiplexer redis)
+        {
             _database = redis.GetDatabase();
         }
         public async Task<bool> DeleteBasketAsync(string basketId)
@@ -23,15 +24,15 @@ namespace Route.Talabat.Infrastructure.BasketRepository
 
         public async Task<CustomerBasket?> GetBasketAsync(string basketId)
         {
-            var basket= await _database.StringGetAsync(basketId);
+            var basket = await _database.StringGetAsync(basketId);
 
-            return  basket.IsNullOrEmpty ? null: JsonSerializer.Deserialize<CustomerBasket>(basket);
+            return basket.IsNullOrEmpty ? null : JsonSerializer.Deserialize<CustomerBasket>(basket);
         }
 
         public async Task<CustomerBasket?> UpdateBasketAsync(CustomerBasket basket)
         {
             var convertedBasket = JsonSerializer.Serialize(basket);
-            var updatedOrCreatedBasket = await _database.StringSetAsync(basket.Id,convertedBasket,TimeSpan.FromDays(30));
+            var updatedOrCreatedBasket = await _database.StringSetAsync(basket.Id, convertedBasket, TimeSpan.FromDays(30));
 
             return updatedOrCreatedBasket ? await GetBasketAsync(basket.Id) : null!;
         }

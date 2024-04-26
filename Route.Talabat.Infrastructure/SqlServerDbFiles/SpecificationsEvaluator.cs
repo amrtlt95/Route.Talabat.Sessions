@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Infrastructure.GenericRepository
+namespace Route.Talabat.Infrastructure.SqlServerDbFiles
 {
     internal static class SpecificationsEvaluator<T> where T : BaseEntity
     {

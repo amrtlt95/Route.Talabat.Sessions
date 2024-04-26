@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Route.Talabat.Infrastructure.GenericRepository.Data;
+using Route.Talabat.Infrastructure.SqlServerDbFiles.Data;
 
 namespace Route.Talabat.APIs.Controllers
 {

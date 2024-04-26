@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Infrastructure.GenericRepository.Data
+namespace Route.Talabat.Infrastructure.SqlServerDbFiles.Data
 {
     public class ApplicationDbContext : DbContext
     {
