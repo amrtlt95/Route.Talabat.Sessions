@@ -1,15 +1,18 @@
 
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Route.Talabat.APIs.Errors;
 using Route.Talabat.APIs.Extentions;
 using Route.Talabat.APIs.Helpers;
 using Route.Talabat.APIs.Middlewares;
+using Route.Talabat.Core.Entities.Identity;
 using Route.Talabat.Core.Repositories.Contract;
 using Route.Talabat.Infrastructure;
 using Route.Talabat.Infrastructure.SqlServerDbFiles.Data;
 using Route.Talabat.Infrastructure.SqlServerDbFiles.Identity;
+using Route.Talabat.Infrastructure.SqlServerDbFiles.Identity.Dataseed;
 using StackExchange.Redis;
 
 namespace Route.Talabat.APIs
@@ -31,19 +34,20 @@ namespace Route.Talabat.APIs
 				options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies();
 			});
 
+			webApplicationBuilder.Services.AddScoped<IConnectionMultiplexer>((serviceProvider) => {
+				var connection = webApplicationBuilder.Configuration.GetConnectionString("Radis");
+				return ConnectionMultiplexer.Connect(connection);
+            });
+
 
 			webApplicationBuilder.Services.AddDbContext<ApplicationIdentityDbContext>(options =>
 			{
 				options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("IdentityConnection"));
 			});
 
+			webApplicationBuilder.Services.AddIdentity<ApplicationUser,IdentityRole>().AddEntityFrameworkStores<ApplicationIdentityDbContext>();
 
-
-			webApplicationBuilder.Services.AddScoped<IConnectionMultiplexer>((serviceProvider) => {
-				var connection = webApplicationBuilder.Configuration.GetConnectionString("Radis");
-				return ConnectionMultiplexer.Connect(connection);
-            });
-            webApplicationBuilder.Services.AddApplicationServices();
+			webApplicationBuilder.Services.AddApplicationServices();
             #endregion
 
             var app = webApplicationBuilder.Build();
@@ -61,6 +65,9 @@ namespace Route.Talabat.APIs
 				await ApplicationContextSeed.SeedAsync(_dbContext);
 
 				await _identityDbContext.Database.MigrateAsync();
+
+				var _userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+				await ApplicationIdentityDataSeeding.SeedUsersAsync(_userManager);
 			}
 			catch (Exception ex)
 			{
