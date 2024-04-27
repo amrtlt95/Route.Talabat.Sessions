@@ -42,5 +42,36 @@ namespace Route.Talabat.APIs.Controllers
 
 		}
 
+		[HttpPost("register")]
+		public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+		{
+			var checkUser = await _userManager.FindByEmailAsync(registerDto.Email);
+			if(checkUser is null)
+			{
+				var newUser = new ApplicationUser()
+				{
+					DisplayName = registerDto.DisplayName,
+					Email = registerDto.Email,
+					PhoneNumber = registerDto.PhoneNumber,
+					UserName = registerDto.Email.Split('@')[0]
+				};
+				var creatingNewUser = await _userManager.CreateAsync(newUser,registerDto.Password);
+
+				if (!creatingNewUser.Succeeded)
+					return BadRequest(new ApiValidationErrorResponse()
+					{
+						Errors = creatingNewUser.Errors.Select(E => E.Description).ToList()
+					});
+				return Ok(new UserDto()
+				{
+					DisplayName = registerDto.DisplayName ,
+					Email = registerDto.Email,
+					Token= "this will be token"
+				});
+
+			}
+			return BadRequest(new ApiResponse(StatusCodes.Status400BadRequest,"Email already exists"));
+		}
+
 	}
 }
