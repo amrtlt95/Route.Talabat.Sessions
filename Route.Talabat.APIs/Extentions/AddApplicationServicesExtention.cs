@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Route.Talabat.APIs.Errors;
 using Route.Talabat.APIs.Helpers;
+using Route.Talabat.Application.Auth;
 using Route.Talabat.Core.Repositories.Contract;
+using Route.Talabat.Core.Services.Contract;
 using Route.Talabat.Infrastructure.RedisDbFiles.BasketRepository;
 using Route.Talabat.Infrastructure.SqlServerDbFiles;
 using StackExchange.Redis;
@@ -15,7 +17,8 @@ namespace Route.Talabat.APIs.Extentions
         {
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IBasketRepository, BasketRepository>();
-            services.AddAutoMapper(typeof(MappingProfiles));
+            services.AddScoped(typeof(IAuthService), typeof(AuthService));
+			services.AddAutoMapper(typeof(MappingProfiles));
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.InvalidModelStateResponseFactory = (action) =>
